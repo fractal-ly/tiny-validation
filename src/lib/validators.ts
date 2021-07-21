@@ -48,9 +48,9 @@ export const minVal = (min: number) =>
 
 export const maxVal = (max: number) =>
   Validation((key, x) =>
-    typeof x !== 'string'
+    typeof x !== 'number'
       ? Fail({ [key]: [`${key} must be a number`] })
-      : x.length < max
+      : x <= max
       ? Success()
-      : Fail({ [key]: [`${key} has to be greater than ${max}`] })
+      : Fail({ [key]: [`${key} has to be less than ${max}`] })
   );
