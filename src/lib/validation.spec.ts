@@ -27,7 +27,10 @@ const onlyNumbers = Validation(
 
 const schema: Schema = {
   name: { initial: '', validations: [isPresent, maxChars(30), minChars(3)] },
-  password: { initial: '', validations: [isPresent, minChars(8), onlyNumbers] },
+  password: {
+    initial: '',
+    validations: [isPresent, minChars(8), maxChars(30), onlyNumbers],
+  },
   tos: { initial: false, validations: [isTrue] },
   age: { initial: 0, validations: [minVal(18), maxVal(40)] },
   email: { initial: '', validations: [isPresent, isEmail] },
@@ -44,7 +47,8 @@ test('Test successful validation', (t) => {
 test('Test failing validation', (t) => {
   const result = validate(schema, {
     name: '',
-    password: '232d23',
+    password:
+      '2478237498237498273948273948723984729384729384729384729384729834732d23',
     tos: false,
     age: 10,
     limit: 600,
@@ -57,7 +61,7 @@ test('Test failing validation', (t) => {
     limit: ['limit has to be less than 500'],
     name: ['name is not present', 'name has to be greater than 3 chars'],
     password: [
-      'password has to be greater than 8 chars',
+      'password has to be shorter than 30 chars',
       'password: should only contain numbers',
     ],
     tos: ['tos must be set'],
