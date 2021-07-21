@@ -1,6 +1,6 @@
 {
   "name": "tiny-validation",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A simple fp-based validation library",
   "main": "build/main/index.js",
   "author": "Gustavo Gallegos",
