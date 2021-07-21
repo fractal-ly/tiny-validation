@@ -1,12 +1,12 @@
 {
-  "name": "frctly-validation",
+  "name": "tiny-validation",
   "version": "1.0.3",
   "description": "A simple fp-based validation library",
   "main": "build/main/index.js",
   "author": "Gustavo Gallegos",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/fractal-ly/frctly-validation",
+  "repository": "https://github.com/fractal-ly/tiny-validation",
   "license": "MIT",
   "keywords": [],
   "scripts": {
