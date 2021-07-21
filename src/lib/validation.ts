@@ -3,7 +3,7 @@ type Input = Record<string, unknown>;
 type SuccessfulOutput = Input;
 type FailedOutput = Record<string, readonly string[]>;
 
-export type Runner = (key: string, value: unknown) => Result;
+type Runner = (key: string, value: unknown) => Result;
 type Fold = (
   f: (value: FailedOutput) => unknown,
   g: (value: SuccessfulOutput) => unknown
@@ -21,7 +21,7 @@ type Result = {
   readonly concat: (other: Result) => Result;
 };
 
-export type Schema = Record<string, readonly Validation[]>;
+type Schema = Record<string, readonly Validation[]>;
 
 const Validation = (run: Runner): Validation => ({
   run,
@@ -64,4 +64,4 @@ const validate = (schema: Schema, obj: Input): Result =>
 
 const concat = (f: Validation, g: Validation) => g?.concat(f) ?? g;
 
-export { Validation, Success, Fail, validate };
+export { Schema, Validation, Success, Fail, Runner, validate };
