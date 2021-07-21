@@ -1,6 +1,6 @@
 {
   "name": "frctly-validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple fp-based validation library",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
