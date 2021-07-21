@@ -21,13 +21,7 @@ type Result = {
   readonly concat: (other: Result) => Result;
 };
 
-export type Schema = Record<
-  string,
-  {
-    readonly initial: string | number | boolean;
-    readonly validations: readonly Validation[];
-  }
->;
+export type Schema = Record<string, readonly Validation[]>;
 
 const Validation = (run: Runner): Validation => ({
   run,
@@ -64,8 +58,7 @@ const mergeFailures = (
 
 const validate = (schema: Schema, obj: Input): Result =>
   Object.keys(schema).reduce(
-    (acc, key) =>
-      acc.concat(schema[key].validations.reduce(concat).run(key, obj[key])),
+    (acc, key) => acc.concat(schema[key].reduce(concat).run(key, obj[key])),
     Success(obj)
   );
 
