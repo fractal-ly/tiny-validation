@@ -153,22 +153,22 @@
 					<h3>Result objects</h3>
 				</a>
 				<p>A result is an object with the following properties:</p>
-				<p><code>isFailed</code>: whether the Result is a failure or success
-					<code>x</code>: The actual value of the result (the input object if successful, or an object where the keys are the fields that failed and the values are an array of error messages for all validations that have failed for that field).
-					<code>fold</code>: takes two functions, the first will be applied to <code>x</code> if the result is a Failure, the second will be applied if it is a success.
-				<code>concat</code>: used internally to chain results as the validations run through all fields.</p>
+				<p><code>isFailed</code>: whether the Result is a failure or success</p>
+				<p><code>x</code>: The actual value of the result (the input object if successful, or an object where the keys are the fields that failed and the values are an array of error messages for all validations that have failed for that field).</p>
+				<p><code>fold</code>: takes two functions, the first will be applied to <code>x</code> if the result is a Failure, the second will be applied if it is a success.</p>
+				<p><code>concat</code>: used internally to chain results as the validations run through all fields.</p>
 				<a href="#provided-validations" id="provided-validations" style="color: inherit; text-decoration: none;">
 					<h3>Provided validations</h3>
 				</a>
 				<p>We provide a sample of simple validations you can use out of the box</p>
-				<p><code>isEmail</code>: passes if a provided string is an email.
-					<code>isPresent</code>: passes if the field is present (via truthiness check).
-					<code>isTrue</code>: passes the argument === true
-					<code>maxVal</code>: fails if a number goes over a provided value
-					<code>minVal</code>: fails if a number is under a provided value
-					<code>maxChars</code>: fails if a string goes over a provided number of chars
-					<code>minChars</code>: fails if a string goes under a provided number of chars
-				<code>pattern</code>: helper function to create validations based on a RegExp Pattern. must be used in conjunction with <code>Validation</code> (see example below) the created validation fails if a string does not conform to a RegExp pattern (via RegExp.test())</p>
+				<p><code>isEmail</code>: passes if a provided string is an email.</p>
+				<p><code>isPresent</code>: passes if the field is present (via truthiness check).</p>
+				<p><code>isTrue</code>: passes the argument === true </p>
+				<p><code>maxVal</code>: fails if a number goes over a provided value</p>
+				<p><code>minVal</code>: fails if a number is under a provided value</p>
+				<p><code>maxChars</code>: fails if a string goes over a provided number of chars</p>
+				<p><code>minChars</code>: fails if a string goes under a provided number of chars</p>
+				<p><code>pattern</code>: helper function to create validations based on a RegExp Pattern. must be used in conjunction with <code>Validation</code> (see example below) the created validation fails if a string does not conform to a RegExp pattern (via RegExp.test())</p>
 				<a href="#creating-custom-validations" id="creating-custom-validations" style="color: inherit; text-decoration: none;">
 					<h3>Creating custom validations</h3>
 				</a>
