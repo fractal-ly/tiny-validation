@@ -1,6 +1,4 @@
 /* eslint-disable functional/no-mixed-type */
-import { List } from 'immutable-ext';
-
 type Input = Record<string, unknown>;
 type SuccessfulOutput = Input;
 type FailedOutput = Record<string, readonly string[]>;
@@ -65,8 +63,9 @@ const mergeFailures = (
   );
 
 const validate = (schema: Schema, obj: Input): Result =>
-  List(Object.keys(schema)).foldMap(
-    (key: string) => schema[key].validations.reduce(concat).run(key, obj[key]),
+  Object.keys(schema).reduce(
+    (acc, key) =>
+      acc.concat(schema[key].validations.reduce(concat).run(key, obj[key])),
     Success(obj)
   );
 

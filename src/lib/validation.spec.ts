@@ -26,14 +26,14 @@ const onlyNumbers = Validation(
 );
 
 const schema: Schema = {
-  name: { initial: '', validations: [isPresent, maxChars(30), minChars(3)] },
+  name: { initial: '', validations: [isPresent(), maxChars(30), minChars(3)] },
   password: {
     initial: '',
-    validations: [isPresent, minChars(8), maxChars(30), onlyNumbers],
+    validations: [isPresent(), minChars(8), maxChars(30), onlyNumbers],
   },
-  tos: { initial: false, validations: [isTrue] },
+  tos: { initial: false, validations: [isTrue()] },
   age: { initial: 0, validations: [minVal(18), maxVal(40)] },
-  email: { initial: '', validations: [isPresent, isEmail] },
+  email: { initial: '', validations: [isPresent(), isEmail()] },
   limit: { initial: 200, validations: [maxVal(500)] },
 };
 
