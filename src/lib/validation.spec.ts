@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { Schema, validate, Validation } from './validation';
+import { Fail, Schema, Success, validate, Validation } from './validation';
 import {
   isEmail,
   isPresent,
@@ -23,6 +23,16 @@ const toValidate = {
 
 const onlyNumbers = Validation(
   pattern(/^[0-9]+$/, 'should only contain numbers')
+);
+
+const isEven = Validation((key, x) =>
+  typeof x !== 'number'
+    ? Fail({ [key]: [`${key} must be a number`] })
+    : x % 2 === 0
+    ? Success()
+    : Fail({
+        [key]: [`${key} has to be even`],
+      })
 );
 
 const schema: Schema = {
@@ -62,5 +72,23 @@ test('Test failing validation', (t) => {
       'password: should only contain numbers',
     ],
     tos: ['tos must be set'],
+  });
+});
+
+test('Test custom validation', (t) => {
+  const result = validate(
+    {
+      even: [isEven, maxVal(800)],
+      odd: [isEven, maxVal(800)],
+    },
+    {
+      even: 78,
+      odd: 73,
+    }
+  );
+
+  t.is(result.isFail, true);
+  t.deepEqual(result.x, {
+    odd: ['odd has to be even'],
   });
 });

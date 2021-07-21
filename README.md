@@ -123,7 +123,7 @@ We provide a sample of simple validations you can use out of the box
 `minVal`: fails if a number is under a provided value
 `maxChars`: fails if a string goes over a provided number of chars
 `minChars`: fails if a string goes under a provided number of chars
-`pattern`: fails if a string does not conform to a RegExp pattern (via RegExp.test())
+`pattern`: helper function to create validations based on a RegExp Pattern. must be used in conjunction with `Validation` (see example below) the created validation fails if a string does not conform to a RegExp pattern (via RegExp.test())
 
 ### Creating custom validations
 
@@ -145,11 +145,35 @@ const startsWith8 = Validation(
 );
 ```
 
-If you then want to validate a field that should only contain numbers, always start with 8 and be less than 801, you could write this in your schema:
+If you then want to validate a string field that should only contain numbers, and always start with 8 you could write this in your schema:
 
 ```
 const schema = {
   ...
-  someDataPoint = [onlyNumbers, startsWith8, maxVal(800)]
+  someDataPoint = [onlyNumbers, startsWith8]
 }
+```
+
+Another example, if you wanted to check if a number field is even:
+
+```
+const isEven = Validation((key, x) =>
+  typeof x !== 'number'
+    ? Fail({ [key]: [`${key} must be a number`] })
+    : x % 2 === 0
+      ? Success()
+      : Fail({
+          [key]: [`${key} has to be even`],
+        })
+);
+```
+(note that the first type guard is not required but it is recommended)
+
+then you would do:
+
+```
+  const schema = {
+    ...
+    someDataPoint = [isEven]
+  }
 ```

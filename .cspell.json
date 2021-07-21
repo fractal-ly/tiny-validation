@@ -23,7 +23,8 @@
     "typedoc",
     "untracked",
     "mccloud",
-    "gmail"
+    "gmail",
+    "typeof"
   ],
   "flagWords": [],
   "ignorePaths": [
