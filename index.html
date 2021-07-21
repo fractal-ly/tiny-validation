@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>frctly-validation</title>
-	<meta name="description" content="Documentation for frctly-validation">
+	<title>tiny-validation</title>
+	<meta name="description" content="Documentation for tiny-validation">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">frctly-validation</a>
+					<a href="index.html" class="title">tiny-validation</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1>frctly-validation</h1>
+			<h1>tiny-validation</h1>
 		</div>
 	</div>
 </header>
@@ -64,10 +64,131 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#frctly-validation" id="frctly-validation" style="color: inherit; text-decoration: none;">
-					<h1>frctly-validation</h1>
+				<a href="#tiny-validation" id="tiny-validation" style="color: inherit; text-decoration: none;">
+					<h1>tiny-validation</h1>
 				</a>
-				<p>A simple fp-based validation library</p>
+				<p>A simple fp-based validation library (based on a talk by DrBoolean)</p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<pre><code>npm <span class="hljs-keyword">install</span> tiny-validation
+</code></pre>
+				<p>or</p>
+				<pre><code>yarn <span class="hljs-builtin-name">add</span> tiny-validation
+</code></pre>
+				<a href="#uses" id="uses" style="color: inherit; text-decoration: none;">
+					<h2>Uses</h2>
+				</a>
+				<p>Validates an object against a given schema. The library provides some validations as well as the means by which to make any validation you want. </p>
+				<p>This was developed for use with form validation, but can be used for validating any object if you provide the validations for the fields (or use the ones provided).</p>
+				<p>Each field to validate is the key-value pair in the object you provide, and it will be validated against the set of validations defined in your schema. </p>
+				<p>input object: <code>{ email: &quot;bootsMccloud$gmail.com&quot; }</code>
+				schema: <code>{ name: [isPresent(), maxChars(30)] }</code></p>
+				<p>The result of the validation is a Result object (of type Fail or Success) that contains either the original object (when successful) or an object of key-value pairs where the values are the set of error messages for failed validations.</p>
+				<p>output inside the Result object: <code>{ email: [&quot;Bad email format&quot;] }</code></p>
+				<a href="#example-usage" id="example-usage" style="color: inherit; text-decoration: none;">
+					<h3>Example usage</h3>
+				</a>
+				<p>A user first creates a schema object that represents the shape of the input and the validations to be run against each field</p>
+				<pre><code>import { Schema, <span class="hljs-keyword">min</span>Chars, isPresent, <span class="hljs-keyword">max</span>Chars, isEmail, <span class="hljs-keyword">max</span>Val, <span class="hljs-keyword">min</span>Val } <span class="hljs-keyword">from</span> &#x27;tiny-validation&#x27;
+
+<span class="hljs-keyword">const</span> schema: Schema = {
+  name: [isPresent(), <span class="hljs-keyword">max</span>Chars(<span class="hljs-number">30</span>), <span class="hljs-keyword">min</span>Chars(<span class="hljs-number">3</span>)],
+  password: [isPresent(), <span class="hljs-keyword">min</span>Chars(<span class="hljs-number">8</span>), <span class="hljs-keyword">max</span>Chars(<span class="hljs-number">30</span>), onlyNumbers],
+  <span class="hljs-keyword">tos</span>: [isTrue()],
+  age: [<span class="hljs-keyword">min</span>Val(<span class="hljs-number">18</span>), <span class="hljs-keyword">max</span>Val(<span class="hljs-number">40</span>)],
+  email: [isPresent(), isEmail()],
+  <span class="hljs-keyword">limit</span>: [<span class="hljs-keyword">max</span>Val(<span class="hljs-number">500</span>)],
+};
+</code></pre>
+				<p>To validate an input, the user then calls the validate function, which will run through each field (input object key), create a chain of validating functions to run against that field&#39;s value, run it and return the result object. </p>
+				<pre><code><span class="hljs-keyword">import</span> { validate } from <span class="hljs-symbol">&#x27;tiny</span>-validation`
+
+<span class="hljs-comment">// ... define the schema and add your code</span>
+
+  const inputObject = {
+    name: <span class="hljs-symbol">&#x27;Johnny</span> <span class="hljs-type">McWhiskers</span>&#x27;,
+    password: <span class="hljs-symbol">&#x27;34235423424</span>3&#x27;,
+    email: <span class="hljs-symbol">&#x27;something</span><span class="hljs-meta">@somewhere</span>&#x27;,
+    tos: <span class="hljs-literal">true</span>,
+    age: <span class="hljs-number">23</span>,
+    limit: <span class="hljs-number">300</span>,
+  };
+
+  const result = validate(schema, inputObject);
+
+  result.fold(console.error, console.log);
+</code></pre>
+				<p>this will print back out your input object to the log console. and result.isFail will be false.</p>
+				<p>For the error case, if instead your code was: </p>
+				<pre><code><span class="hljs-keyword">import</span> { <span class="hljs-keyword">validate</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;tiny-validation`
+
+// ... define the schema and add your code
+
+  const inputObject = {
+    name: &#x27;&#x27;,
+    password: &#x27;</span><span class="hljs-number">342354234243374823784293874928374928374829374928374</span>somethingels<span class="hljs-string">e&#x27;,
+    email: &#x27;</span>something$somewher<span class="hljs-string">e&#x27;,
+    tos: false,
+    age: 17,
+    limit: 700,
+  };
+
+  const result = validate(schema, inputObject);
+
+  result.fold(console.error, console.log);</span>
+</code></pre>
+				<p>will print out the following to your error console: </p>
+				<pre><code>  {
+    age: [&#x27;age has <span class="hljs-keyword">to</span> be <span class="hljs-keyword">greater than</span> <span class="hljs-number">18</span>&#x27;],
+    email: [&#x27;email <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> present&#x27;, &#x27;email must be a <span class="hljs-built_in">string</span>&#x27;],
+    limit: [&#x27;limit has <span class="hljs-keyword">to</span> be <span class="hljs-keyword">less than</span> <span class="hljs-number">500</span>&#x27;],
+    <span class="hljs-built_in">name</span>: [&#x27;<span class="hljs-built_in">name</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> present&#x27;, &#x27;<span class="hljs-built_in">name</span> has <span class="hljs-keyword">to</span> be <span class="hljs-keyword">greater than</span> <span class="hljs-number">3</span> chars&#x27;],
+    password: [&#x27;password has <span class="hljs-keyword">to</span> be shorter than <span class="hljs-number">30</span> chars&#x27;],
+    tos: [&#x27;tos must be <span class="hljs-keyword">set</span>&#x27;],
+  }
+</code></pre>
+				<p>If you do not wish to use the fold function, you can simply access <code>result.x</code> and read <code>result.isFail</code></p>
+				<a href="#result-objects" id="result-objects" style="color: inherit; text-decoration: none;">
+					<h3>Result objects</h3>
+				</a>
+				<p>A result is an object with the following properties:</p>
+				<p><code>isFailed</code>: whether the Result is a failure or success
+					<code>x</code>: The actual value of the result (the input object if successful, or an object where the keys are the fields that failed and the values are an array of error messages for all validations that have failed for that field).
+					<code>fold</code>: takes two functions, the first will be applied to <code>x</code> if the result is a Failure, the second will be applied if it is a success.
+				<code>concat</code>: used internally to chain results as the validations run through all fields.</p>
+				<a href="#provided-validations" id="provided-validations" style="color: inherit; text-decoration: none;">
+					<h3>Provided validations</h3>
+				</a>
+				<p>We provide a sample of simple validations you can use out of the box</p>
+				<p><code>isEmail</code>: passes if a provided string is an email.
+					<code>isPresent</code>: passes if the field is present (via truthiness check).
+					<code>isTrue</code>: passes the argument === true
+					<code>maxVal</code>: fails if a number goes over a provided value
+					<code>minVal</code>: fails if a number is under a provided value
+					<code>maxChars</code>: fails if a string goes over a provided number of chars
+					<code>minChars</code>: fails if a string goes under a provided number of chars
+				<code>pattern</code>: fails if a string does not conform to a RegExp pattern (via RegExp.test())</p>
+				<a href="#creating-custom-validations" id="creating-custom-validations" style="color: inherit; text-decoration: none;">
+					<h3>Creating custom validations</h3>
+				</a>
+				<p>you can see how to create your own validations by reading <code>validators.ts</code>, here&#39;s an example:</p>
+				<p>If we want to make sure a field only contains numbers:</p>
+				<pre><code><span class="hljs-keyword">const</span> onlyNumbers = Validation(
+  pattern(<span class="hljs-regexp">/^[0-9]+$/</span>, <span class="hljs-string">&#x27;should only contain numbers&#x27;</span>)
+);
+</code></pre>
+				<p>To check that a field always starts with the number 8:</p>
+				<pre><code><span class="hljs-keyword">const</span> startsWith8 = Validation(
+  pattern(<span class="hljs-regexp">/^8/</span>, <span class="hljs-string">&#x27;should only contain numbers&#x27;</span>)
+);
+</code></pre>
+				<p>If you then want to validate a field that should only contain numbers, always start with 8 and be less than 801, you could write this in your schema:</p>
+				<pre><code>const <span class="hljs-attr">schema</span> = {
+  ...
+  <span class="hljs-attr">someDataPoint</span> = [onlyNumbers, startsWith8, maxVal(<span class="hljs-number">800</span>)]
+}
+</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
