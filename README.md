@@ -108,8 +108,11 @@ If you do not wish to use the fold function, you can simply access `result.x` an
 A result is an object with the following properties:
 
 `isFailed`: whether the Result is a failure or success
+
 `x`: The actual value of the result (the input object if successful, or an object where the keys are the fields that failed and the values are an array of error messages for all validations that have failed for that field).
+
 `fold`: takes two functions, the first will be applied to `x` if the result is a Failure, the second will be applied if it is a success.
+
 `concat`: used internally to chain results as the validations run through all fields.
 
 ### Provided validations
@@ -117,12 +120,19 @@ A result is an object with the following properties:
 We provide a sample of simple validations you can use out of the box
 
 `isEmail`: passes if a provided string is an email.
+
 `isPresent`: passes if the field is present (via truthiness check).
+
 `isTrue`: passes the argument === true 
+
 `maxVal`: fails if a number goes over a provided value
+
 `minVal`: fails if a number is under a provided value
+
 `maxChars`: fails if a string goes over a provided number of chars
+
 `minChars`: fails if a string goes under a provided number of chars
+
 `pattern`: helper function to create validations based on a RegExp Pattern. must be used in conjunction with `Validation` (see example below) the created validation fails if a string does not conform to a RegExp pattern (via RegExp.test())
 
 ### Creating custom validations
