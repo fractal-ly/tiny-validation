@@ -168,7 +168,7 @@
 					<code>minVal</code>: fails if a number is under a provided value
 					<code>maxChars</code>: fails if a string goes over a provided number of chars
 					<code>minChars</code>: fails if a string goes under a provided number of chars
-				<code>pattern</code>: fails if a string does not conform to a RegExp pattern (via RegExp.test())</p>
+				<code>pattern</code>: helper function to create validations based on a RegExp Pattern. must be used in conjunction with <code>Validation</code> (see example below) the created validation fails if a string does not conform to a RegExp pattern (via RegExp.test())</p>
 				<a href="#creating-custom-validations" id="creating-custom-validations" style="color: inherit; text-decoration: none;">
 					<h3>Creating custom validations</h3>
 				</a>
@@ -183,11 +183,29 @@
   pattern(<span class="hljs-regexp">/^8/</span>, <span class="hljs-string">&#x27;should only contain numbers&#x27;</span>)
 );
 </code></pre>
-				<p>If you then want to validate a field that should only contain numbers, always start with 8 and be less than 801, you could write this in your schema:</p>
+				<p>If you then want to validate a string field that should only contain numbers, and always start with 8 you could write this in your schema:</p>
 				<pre><code>const <span class="hljs-attr">schema</span> = {
   ...
-  <span class="hljs-attr">someDataPoint</span> = [onlyNumbers, startsWith8, maxVal(<span class="hljs-number">800</span>)]
+  <span class="hljs-attr">someDataPoint</span> = [onlyNumbers, startsWith8]
 }
+</code></pre>
+				<p>Another example, if you wanted to check if a number field is even:</p>
+				<pre><code>const isEven = Validati<span class="hljs-meta">on(</span>(<span class="hljs-meta">key</span>, <span class="hljs-meta">x</span>) =&gt;
+  typeof <span class="hljs-meta">x</span> !== <span class="hljs-string">&#x27;number&#x27;</span>
+    ? Fail({ [<span class="hljs-meta">key</span>]: [`${<span class="hljs-meta">key</span>} must be a number`] })
+    : <span class="hljs-meta">x</span> % 2 === 0
+      ? Success()
+      : Fail({
+          [<span class="hljs-meta">key</span>]: [`${<span class="hljs-meta">key</span>} has to be even`],
+        })
+);
+</code></pre>
+				<p>(note that the first type guard is not required but it is recommended)</p>
+				<p>then you would do:</p>
+				<pre><code>  const <span class="hljs-attr">schema</span> = {
+    ...
+    <span class="hljs-attr">someDataPoint</span> = [isEven]
+  }
 </code></pre>
 			</div>
 		</div>
