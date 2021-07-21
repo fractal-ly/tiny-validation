@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "A simple fp-based validation library",
   "main": "build/main/index.js",
+  "author": "Gustavo Gallegos",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "repository": "https://github.com/fractal-ly/frctly-validation",
