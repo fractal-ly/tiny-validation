@@ -1,2 +1,2 @@
 export * from './lib/validation';
-export * from './lib/validators';
+export * as Validators from './lib/validators';
