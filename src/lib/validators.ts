@@ -1,13 +1,13 @@
 import { Fail, Runner, Success, Validation } from './validation';
 
 export const pattern =
-  (re: RegExp, errorMessage: string): Runner =>
+  (re: RegExp, errorMessage?: string): Runner =>
   (key, x) =>
     typeof x !== 'string'
       ? Fail({ [key]: [`${key} must be a string`] })
       : re.test(x)
       ? Success()
-      : Fail({ [key]: [`${key}: ${errorMessage ?? `${key} bad format`}`] });
+      : Fail({ [key]: [errorMessage ?? `${key} bad format`] });
 
 export const isPresent = (errorMessage?: string) =>
   Validation((key, x) =>

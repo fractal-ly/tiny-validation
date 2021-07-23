@@ -69,7 +69,7 @@ test('Test failing validation', (t) => {
     name: ['name is not present', 'name has to be greater than 3 chars'],
     password: [
       'password has to be shorter than 30 chars',
-      'password: should only contain numbers',
+      'should only contain numbers',
     ],
     tos: ['tos must be set'],
   });
