@@ -15,7 +15,7 @@ import {
 const toValidate = {
   name: 'Filiberto Umberticula',
   password: '342354234243',
-  email: 'something@somewhere',
+  email: 'some.person@somewhere.com',
   tos: true,
   age: 23,
   limit: 300,
