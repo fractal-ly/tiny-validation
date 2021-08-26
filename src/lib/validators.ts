@@ -15,7 +15,12 @@ export const isPresent = (errorMessage?: string) =>
   );
 
 export const isEmail = (errorMessage?: string) =>
-  Validation(pattern(/@/, errorMessage ?? 'Bad email format'));
+  Validation(
+    pattern(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      errorMessage ?? 'Bad email format'
+    )
+  );
 
 export const isTrue = (errorMessage?: string) =>
   Validation((key, x) =>
