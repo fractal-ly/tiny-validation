@@ -70,3 +70,10 @@ export const maxVal = (max: number, errorMessage?: string) =>
       ? Success()
       : Fail({ [key]: [errorMessage ?? `${key} has to be less than ${max}`] })
   );
+
+export const equals = (comparisonKey: string, errorMessage?: string) =>
+  Validation((key, x, meta) =>
+    x === meta?.[comparisonKey]
+      ? Success()
+      : Fail({ [key]: [errorMessage ?? `${comparisonKey} does not match`] })
+  );

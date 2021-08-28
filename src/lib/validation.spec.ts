@@ -2,6 +2,7 @@ import test from 'ava';
 
 import { Fail, Schema, Success, validate, Validation } from './validation';
 import {
+  equals,
   isEmail,
   isPresent,
   isTrue,
@@ -90,5 +91,38 @@ test('Test custom validation', (t) => {
   t.is(result.isFail, true);
   t.deepEqual(result.x, {
     odd: ['odd has to be even'],
+  });
+});
+
+test('Test successful validation with input object', (t) => {
+  const result = validate(
+    {
+      pin: [isPresent(), minChars(4)],
+      pin2: [equals('pin')],
+    },
+    {
+      pin: 'hello',
+      pin2: 'hello',
+    }
+  );
+
+  t.is(result.isFail, false);
+});
+
+test('Test failing validation with input object', (t) => {
+  const result = validate(
+    {
+      pin: [isPresent(), minChars(4)],
+      pin2: [equals('pin')],
+    },
+    {
+      pin: 'hello',
+      pin2: 'helo',
+    }
+  );
+
+  t.is(result.isFail, true);
+  t.deepEqual(result.x, {
+    pin2: ['pin does not match'],
   });
 });

@@ -3,7 +3,7 @@ type Input = Record<string, unknown>;
 type SuccessfulOutput = Input;
 type FailedOutput = Record<string, readonly string[]>;
 
-type Runner = (key: string, value: unknown) => Result;
+type Runner = (key: string, value: unknown, meta?: Input) => Result;
 type Fold = (
   f: (value: FailedOutput) => unknown,
   g: (value: SuccessfulOutput) => unknown
@@ -26,7 +26,9 @@ type Schema = Record<string, readonly Validation[]>;
 const Validation = (run: Runner): Validation => ({
   run,
   concat: (other) =>
-    Validation((key, x) => run(key, x).concat(other.run(key, x))),
+    Validation((key, x, meta) =>
+      run(key, x, meta).concat(other.run(key, x, meta))
+    ),
 });
 
 const Success = (x: Input = {}): Result => ({
@@ -58,7 +60,8 @@ const mergeFailures = (
 
 const validate = (schema: Schema, obj: Input): Result =>
   Object.keys(schema).reduce(
-    (acc, key) => acc.concat(schema[key].reduce(concat).run(key, obj[key])),
+    (acc, key) =>
+      acc.concat(schema[key].reduce(concat).run(key, obj[key], obj)),
     Success(obj)
   );
 
