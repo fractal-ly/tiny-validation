@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/fractal-ly/tiny-validation/compare/v1.0.12...v1.1.1) (2021-08-28)
+
 ### [1.0.12](https://github.com/fractal-ly/tiny-validation/compare/v1.0.11...v1.0.12) (2021-08-26)
 
 ### [1.0.11](https://github.com/fractal-ly/tiny-validation/compare/v1.0.10...v1.0.11) (2021-08-26)
